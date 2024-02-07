@@ -38,4 +38,37 @@ describe(LikeWidgetComponent.name, () => {
       component.like();
       expect(component.liked.emit).toHaveBeenCalled();
   });
+
+  it('(D) Should display number of likes when clicled', done => {
+    fixture.detectChanges();
+    component.liked.subscribe(() => {
+      component.likes++;
+      fixture.detectChanges();
+      const counterEl: HTMLElement = fixture.nativeElement
+        .querySelector('.like-counter');
+      expect(counterEl.textContent.trim()).toBe('1');
+      // aqui precisamos pasar o done por conta do subscribe para indicar para o Jasmine que o teste acabou
+      done();
+    });
+    const likeWidgetContainerEl: HTMLElement = fixture.nativeElement
+      .querySelector('.like-widget-container');
+    likeWidgetContainerEl.click();
+  });
+
+  it('(D) Should display number of likes when ENTER key is pressed', done => {
+    fixture.detectChanges();
+    component.liked.subscribe(() => {
+      component.likes++;
+      fixture.detectChanges();
+      const counterEl: HTMLElement = fixture.nativeElement
+        .querySelector('.like-counter');
+      expect(counterEl.textContent.trim()).toBe('1');
+      // aqui precisamos pasar o done por conta do subscribe para indicar para o Jasmine que o teste acabou
+      done();
+    });
+    const likeWidgetContainerEl: HTMLElement = fixture.nativeElement
+      .querySelector('.like-widget-container');
+    const event = new KeyboardEvent('keyup', { key: 'Enter'});
+    likeWidgetContainerEl.dispatchEvent(event);
+  });
 });
